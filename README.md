@@ -25,3 +25,8 @@ Once the Keycloak server is successfully started, it will be accessible via: htt
 You can use the default admin account to log in to the admin page. Here are the credentials:
 - **Username:** `admin`
 - **Password:** `password`
+
+You can visit the following URL to test the login functionality for `myrealm` users:
+https://localhost:8443/realms/myrealm/account?loginStyle=popup&client_id=myclient&response_type=code
+- **Username:** `user1`
+- **Password:** `user1password`
