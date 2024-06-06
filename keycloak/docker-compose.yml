@@ -1,6 +1,17 @@
 version: '3.7'
 
 services:
+  postgres:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=keycloak_db
+      - POSTGRES_USER=keycloak_db_user
+      - POSTGRES_PASSWORD=keycloak_db_user_password
+    networks:
+      - keycloak_network
+    
   keycloak:
     build: .
     container_name: mykeycloak
@@ -10,8 +21,23 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=password
       - KC_HOSTNAME=localhost
+      - KC_HOSTNAME_PORT=8443
+
     volumes:
       - ./realm-config.json:/opt/keycloak/data/import/realm-config.json
     command:
       - start-dev
       - --import-realm
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+      - keycloak_network
+  
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  keycloak_network:
+    driver: bridge
