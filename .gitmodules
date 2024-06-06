@@ -1,0 +1,3 @@
+[submodule "jpetstore"]
+	path = jpetstore
+	url = https://github.com/Esther125/KeycloakFinalProject.git
