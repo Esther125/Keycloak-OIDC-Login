@@ -1,0 +1,64 @@
+{
+  "id": "myrealm",
+  "realm": "myrealm",
+  "enabled": true,
+  "sslRequired": "external",
+  "clients": [
+    {
+      "clientId": "myclient",
+      "rootUrl": "${authBaseUrl}",
+      "adminUrl": "${authBaseUrl}/admin",
+      "baseUrl": "/",
+      "redirectUris": [
+        "*"
+      ],
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true
+    }
+  ],
+  "users": [
+    {
+      "username": "user1",
+      "enabled": true,
+      "email": "user1@example.com",
+      "firstName": "User",
+      "lastName": "One",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user1password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "user2",
+      "enabled": true,
+      "email": "user2@example.com",
+      "firstName": "User",
+      "lastName": "Two",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user2password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "user3",
+      "enabled": true,
+      "email": "user3@example.com",
+      "firstName": "User",
+      "lastName": "Three",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user3password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
