@@ -5,7 +5,7 @@ ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 
 # Configure a database vendor
-#ENV KC_DB=postgres
+# ENV KC_DB=postgres
 
 WORKDIR /opt/keycloak
 # for demonstration purposes only, please make sure to use proper certificates in production instead
@@ -16,9 +16,9 @@ FROM quay.io/keycloak/keycloak:latest
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # change these values to point to a running postgres instance
-#ENV KC_DB=postgres
-#ENV KC_DB_URL=<DBURL>
-#ENV KC_DB_USERNAME=<DBUSERNAME>
-#ENV KC_DB_PASSWORD=<DBPASSWORD>
+ENV KC_DB=postgres
+ENV KC_DB_URL=jdbc:postgresql://postgres/keycloak_db
+ENV KC_DB_USERNAME=keycloak_db_user
+ENV KC_DB_PASSWORD=keycloak_db_user_password
 ENV KC_HOSTNAME=localhost
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
