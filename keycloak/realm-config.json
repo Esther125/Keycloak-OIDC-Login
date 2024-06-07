@@ -30,7 +30,8 @@
           "value": "user1password",
           "temporary": false
         }
-      ]
+      ],
+      "realmRoles": ["default-roles-myrealm"]
     },
     {
       "username": "user2",
@@ -44,7 +45,8 @@
           "value": "user2password",
           "temporary": false
         }
-      ]
+      ],
+      "realmRoles": ["default-roles-myrealm"]
     },
     {
       "username": "user3",
@@ -58,7 +60,8 @@
           "value": "user3password",
           "temporary": false
         }
-      ]
+      ],
+      "realmRoles": ["default-roles-myrealm"]
     }
   ]
 }
