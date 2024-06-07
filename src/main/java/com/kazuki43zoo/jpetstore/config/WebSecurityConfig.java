@@ -65,6 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 */
 
+/*
+We configure HttpSecurity by creating a SecurityFilterChain bean. 
+Also, we need to enable OAuth2 login using http.oauth2Login().
+*/
 @Configuration
 @EnableWebSecurity
 class SecurityConfig{
