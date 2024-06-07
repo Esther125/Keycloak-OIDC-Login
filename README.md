@@ -70,7 +70,7 @@ https://localhost:8443/realms/myrealm/account?loginStyle=popup&client_id=myclien
   2. **\src\main\resources\application.properties**
      - Keycloak settings start from line 22
 
-  3. **src/main/java/com/kazuki43zoo/jpetstore/config/WebSecurityConfig.java**
+  3. **src\main\java\com\kazuki43zoo\jpetstore\config\WebSecurityConfig.java**
      - Changes start from line 72
      
   
