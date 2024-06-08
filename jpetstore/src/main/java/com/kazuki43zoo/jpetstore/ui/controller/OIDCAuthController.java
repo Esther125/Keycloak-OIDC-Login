@@ -22,8 +22,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.http.HttpEntity;
+import java.net.URI;
 
-@RequestMapping("/login-oidc")
+
 @Controller
 public class OIDCAuthController {
     private static final Logger log = LoggerFactory.getLogger(OIDCAuthController.class);
@@ -42,7 +54,7 @@ public class OIDCAuthController {
     @Value("${root.url}")
     private String rootUrl;
 
-    @GetMapping
+    @GetMapping("/login-oidc")
     public ModelAndView redirectToKeycloak() {
         String redirectUri = rootUrl + "/oauth2/callback"; // The URI where Keycloak redirects back to client app
         String responseType = "code"; // Using Authorization Code Flow
@@ -58,6 +70,41 @@ public class OIDCAuthController {
 
         // Redirect to the Keycloak login page
         return new ModelAndView("redirect:" + authorizationUrl);
+    }
+
+    // Request to /token in Keyclaok
+    @GetMapping("/oauth2/callback")
+    public ResponseEntity<String> handleAuthorizationCode(@RequestParam("code") String authorizationCode) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("grant_type", "authorization_code");
+        map.add("client_id", clientId);
+        map.add("client_secret", clientSecret);
+        map.add("code", authorizationCode);
+        map.add("redirect_uri", rootUrl + "/oauth2/callback");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+        String tokenEndpoint = serverUrl + "/protocol/openid-connect/token";
+        log.info("POST request to tokenEndpoint: " + tokenEndpoint);
+
+        //  POST request to tokenEndpoint
+        ResponseEntity<String> response = restTemplate.postForEntity(tokenEndpoint, request, String.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String body = response.getBody();
+            log.info("BODY CONTENT"+body);
+
+            // redirect back to application
+            HttpHeaders redirectHeaders = new HttpHeaders();
+            redirectHeaders.setLocation(URI.create(rootUrl + "/catalog"));
+            return new ResponseEntity<>(redirectHeaders, HttpStatus.SEE_OTHER);
+        } else {
+            return new ResponseEntity<>("Failed to retrieve access token", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
 
