@@ -6,7 +6,7 @@ Before you start, ensure you have the following installed on your system:
 - Docker
 - Docker Compose
 
-### Running Keycloak Server
+### Running Keycloak Server (Auth Server)
 To run the Keycloak server, follow these steps:
 
 ```bash
@@ -26,7 +26,18 @@ You can use the default admin account to log in to the admin page. Here are the 
 - **Username:** `admin`
 - **Password:** `password`
 
-You can visit the following URL to test the login functionality for `myrealm` users:
-https://localhost:8443/realms/myrealm/account?loginStyle=popup&client_id=myclient&response_type=code
-- **Username:** `user1`
-- **Password:** `user1password`
+### Running JPetStore (OIDC Client)
+```bash
+# Navigate to the JPetStore directory 
+cd jpetstore
+
+./mvnw clean spring-boot:run
+
+# Build a jar file
+./mvnw clean package -DskipTests=true
+
+# Run java command
+java -jar target/mybatis-spring-boot-jpetstore-2.0.0-SNAPSHOT.jar
+```
+
+Once the JPetStore server is successfully started, it will be accessible via: http://localhost:8080/
