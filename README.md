@@ -50,3 +50,6 @@ After entering the JPetStore homepage, click on "Login with OIDC" in the top men
 - Password: `user1password`
 
 You should successfully log in and be redirected back to the homepage. The access token will be printed in the console.
+
+### Reference
+- OIDC Login flow: https://docs.google.com/presentation/d/1CiAiuay5rd1KDDnYwOyu6ud9xk5ZetSQDOMp9DYUKjs/edit?pli=1#slide=id.g8bb7b0e120_0_0
