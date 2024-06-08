@@ -6,15 +6,19 @@
   "clients": [
     {
       "clientId": "myclient",
+      "secret": "mysecret",
       "rootUrl": "${authBaseUrl}",
       "adminUrl": "${authBaseUrl}/admin",
       "baseUrl": "/",
       "redirectUris": [
         "*"
       ],
-      "publicClient": true,
+      "publicClient": false,
       "protocol": "openid-connect",
-      "directAccessGrantsEnabled": true
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true
     }
   ],
   "users": [
