@@ -41,3 +41,12 @@ java -jar target/mybatis-spring-boot-jpetstore-2.0.0-SNAPSHOT.jar
 ```
 
 Once the JPetStore server is successfully started, it will be accessible via: http://localhost:8080/
+
+### Expected Result for Current Stage
+
+After entering the JPetStore homepage, click on "Login with OIDC" in the top menu. Log in using the default credentials:
+
+- Username: `user1`
+- Password: `user1password`
+
+You should successfully log in and be redirected back to the homepage. The access token will be printed in the console.
