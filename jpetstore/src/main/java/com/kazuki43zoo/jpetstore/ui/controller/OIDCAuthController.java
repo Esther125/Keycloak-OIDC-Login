@@ -38,15 +38,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.kazuki43zoo.jpetstore.service.OIDCService;
 
 
-
 @Controller
 public class OIDCAuthController {
     private static final Logger log = LoggerFactory.getLogger(OIDCAuthController.class);
+
     @Value("${oauth2.client-id}")
     private String clientId;
-
-    @Value("${oauth2.client-secret}")
-    private String clientSecret;
 
     @Value("${oauth2.server-url}")
     private String serverUrl;
@@ -87,10 +84,10 @@ public class OIDCAuthController {
             String body = response.getBody();
             log.info("BODY CONTENT: "+body);
 
-            // temp: redirect back to application
-            HttpHeaders redirectHeaders = new HttpHeaders();
-            redirectHeaders.setLocation(URI.create(rootUrl + "/catalog"));
-            return new ResponseEntity<>(redirectHeaders, HttpStatus.SEE_OTHER);
+            String accessToken = oidcService.parseAccessToken(body);
+            String userinfo = String.valueOf(oidcService.fetchUserInfo(accessToken));
+            log.info("USERINFO: "+userinfo);
+            return ResponseEntity.status(HttpStatus.OK).body(userinfo);
 
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve access token");

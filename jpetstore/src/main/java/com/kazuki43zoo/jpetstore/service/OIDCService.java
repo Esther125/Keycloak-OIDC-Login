@@ -25,6 +25,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.json.JSONObject;
+
 
 @Service
 public class OIDCService {
@@ -60,6 +62,23 @@ public class OIDCService {
         log.info("POST request to tokenEndpoint: " + tokenEndpoint);
 
         return restTemplate.postForEntity(tokenEndpoint, request, String.class);
+    }
+
+    public String parseAccessToken(String json) {
+        JSONObject jsonObject = new JSONObject(json);
+        return jsonObject.getString("access_token");
+    }
+
+    public ResponseEntity<String> fetchUserInfo(String accessToken) {
+        RestTemplate restTemplate = new RestTemplate();
+        String userinfoUrl = serverUrl + "/protocol/openid-connect/userinfo";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(userinfoUrl, HttpMethod.GET, entity, String.class);
+        log.info("User Info: " + response.getBody());
+        return response;
     }
 }
 
