@@ -34,6 +34,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.http.HttpEntity;
 import java.net.URI;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.kazuki43zoo.jpetstore.service.OIDCService;
+
 
 
 @Controller
@@ -53,6 +56,9 @@ public class OIDCAuthController {
 
     @Value("${root.url}")
     private String rootUrl;
+
+    @Autowired
+    private OIDCService oidcService;
 
     // Request for Authorization Code
     @GetMapping("/login-oidc")
@@ -75,27 +81,9 @@ public class OIDCAuthController {
 
     // Request to token endpoint in Keyclaok
     @GetMapping("/oauth2/callback")
-    public ResponseEntity<String> handleAuthorizationCode(@RequestParam("code") String authorizationCode) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("grant_type", "authorization_code");
-        map.add("client_id", clientId);
-        map.add("client_secret", clientSecret);
-        map.add("code", authorizationCode);
-        map.add("redirect_uri", rootUrl + "/oauth2/callback");
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        String tokenEndpoint = serverUrl + "/protocol/openid-connect/token";
-        log.info("POST request to tokenEndpoint: " + tokenEndpoint);
-
-        //  POST request to tokenEndpoint
-        ResponseEntity<String> response = restTemplate.postForEntity(tokenEndpoint, request, String.class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
+    public ResponseEntity<?> handleAuthorizationCode(@RequestParam("code") String authorizationCode) {
+        ResponseEntity<String> response = oidcService.exchangeToken(authorizationCode);
+        if (response.getStatusCode()== HttpStatus.OK) {
             String body = response.getBody();
             log.info("BODY CONTENT: "+body);
 
@@ -103,8 +91,9 @@ public class OIDCAuthController {
             HttpHeaders redirectHeaders = new HttpHeaders();
             redirectHeaders.setLocation(URI.create(rootUrl + "/catalog"));
             return new ResponseEntity<>(redirectHeaders, HttpStatus.SEE_OTHER);
+
         } else {
-            return new ResponseEntity<>("Failed to retrieve access token", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve access token");
         }
     }
 }
