@@ -54,11 +54,12 @@ public class OIDCAuthController {
     @Value("${root.url}")
     private String rootUrl;
 
+    // Request for Authorization Code
     @GetMapping("/login-oidc")
     public ModelAndView redirectToKeycloak() {
         String redirectUri = rootUrl + "/oauth2/callback"; // The URI where Keycloak redirects back to client app
         String responseType = "code"; // Using Authorization Code Flow
-        String scope = "openid"; // Scope for OpenID Connect
+        String scope = "openid";
 
         // Construct the full authorization URL
         String authorizationUrl = String.format(
@@ -72,7 +73,7 @@ public class OIDCAuthController {
         return new ModelAndView("redirect:" + authorizationUrl);
     }
 
-    // Request to /token in Keyclaok
+    // Request to token endpoint in Keyclaok
     @GetMapping("/oauth2/callback")
     public ResponseEntity<String> handleAuthorizationCode(@RequestParam("code") String authorizationCode) {
         RestTemplate restTemplate = new RestTemplate();
@@ -96,9 +97,9 @@ public class OIDCAuthController {
 
         if (response.getStatusCode() == HttpStatus.OK) {
             String body = response.getBody();
-            log.info("BODY CONTENT"+body);
+            log.info("BODY CONTENT: "+body);
 
-            // redirect back to application
+            // temp: redirect back to application
             HttpHeaders redirectHeaders = new HttpHeaders();
             redirectHeaders.setLocation(URI.create(rootUrl + "/catalog"));
             return new ResponseEntity<>(redirectHeaders, HttpStatus.SEE_OTHER);
