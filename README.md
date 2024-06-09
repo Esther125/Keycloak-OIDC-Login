@@ -50,5 +50,26 @@ After entering the JPetStore homepage, click on "Login with OIDC" in the top men
 - Password: `user1password`
 
 You should be able to log in successfully and be redirected to a page that displays the complete user information from the Keycloak server.
+
+### Possible Solution for : PKIX path building failed error
+Export the SSL Certificate from Keycloak Container.
+    
+  ```bash
+  # Access the Keycloak container's bash shell
+  docker exec -it mykeycloak /bin/bash
+  
+  # Export the SSL certificate from the Keycloak server's keystore    
+  keytool -export -alias server -keystore /opt/keycloak/conf/server.keystore -storepass password -file /tmp/server.crt
+  
+  # Locate the `server.crt` file within the Docker Desktop interface under the `tmp` directory of your container's image. 
+  # Download this certificate file to your host machine.
+   ```
+
+Import the Certificate into the Java Keystore on Your Host:
+
+  ```bash
+  "C:\Program Files\Java\jdk-17\bin\keytool.exe" -importcert -file "[path\to\server.crt]" -alias "keycloak-server" -keystore "C:\Program Files\Java\jdk-17\lib\security\cacerts" -storepass changeit
+  ```
+**NOTICE:** The path to keytool.exe provided above is based on a typical installation of JDK 17 on Windows. If you have a different version of Java installed, or if Java is installed in a different location, you will need to adjust the path accordingly.
 ### Reference
 - OIDC Login flow: https://docs.google.com/presentation/d/1CiAiuay5rd1KDDnYwOyu6ud9xk5ZetSQDOMp9DYUKjs/edit?pli=1#slide=id.g8bb7b0e120_0_0
