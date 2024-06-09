@@ -27,12 +27,15 @@ You can use the default admin account to log in to the admin page. Here are the 
 - **Password:** `password`
 
 ### Running JPetStore (OIDC Client)
+Run with Maven Command
 ```bash
 # Navigate to the JPetStore directory 
 cd jpetstore
 
 ./mvnw clean spring-boot:run
-
+```
+Run with Java command
+```bash
 # Build a jar file
 ./mvnw clean package -DskipTests=true
 
