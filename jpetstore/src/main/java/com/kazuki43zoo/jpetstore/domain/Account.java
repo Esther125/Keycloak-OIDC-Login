@@ -20,6 +20,8 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+import static java.lang.Boolean.FALSE;
+
 /**
  * @author Kazuki Shimizu
  */
@@ -30,22 +32,22 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 8751282105532159742L;
 
 	private String username;
-	private String password;
-	private String email;
-	private String firstName;
-	private String lastName;
-	private String status;
-	private String address1;
-	private String address2;
-	private String city;
-	private String state;
-	private String zip;
-	private String country;
-	private String phone;
-	private String favouriteCategoryId;
-	private String languagePreference;
-	private boolean listOption;
-	private boolean bannerOption;
-	private String bannerName;
+	private String password = "password";
+	private String email = "default@gmail.com";
+	private String firstName = "default";
+	private String lastName = "default";
+	private String status = "default";
+	private String address1= "default";
+	private String address2= "default";
+	private String city= "default";
+	private String state= "default";
+	private String zip= "999";
+	private String country= "default";
+	private String phone= "999-9999-9999";
+	private String favouriteCategoryId= "default";
+	private String languagePreference = "en";
+	private boolean listOption = FALSE;
+	private boolean bannerOption = FALSE;
+	private String bannerName = "default";
 
 }
