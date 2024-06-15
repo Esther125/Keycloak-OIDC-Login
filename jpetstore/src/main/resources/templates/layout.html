@@ -45,9 +45,8 @@
                 <img align="middle" name="img_cart" th:src="@{/images/cart.gif}" />
             </a>
             <img align="middle" th:src="@{/images/separator.gif}" />
-            <!-- change buttom description and router for OIDC-->
-            <a th:href="@{/login-oidc}" sec:authorize="!isAuthenticated()">
-                Sign In With OIDC
+            <a th:href="@{/login}" sec:authorize="!isAuthenticated()">
+                Sign In
             </a>
             <a th:href="@{/logout}" sec:authorize="${isAuthenticated()}">
                 Sign Out

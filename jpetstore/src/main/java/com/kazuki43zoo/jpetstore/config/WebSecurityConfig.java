@@ -15,8 +15,10 @@
  */
 package com.kazuki43zoo.jpetstore.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -24,7 +26,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author Kazuki Shimizu
  */
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	@Autowired
+	CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -39,9 +44,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll();
 		http.authorizeRequests()
 				.mvcMatchers("/my/**").authenticated()
-				//	permit eveyone to access /login-oidc
-				.mvcMatchers("/login-oidc").permitAll()
 				.anyRequest().permitAll();
+		http
+				.oauth2Client()
+				.and()
+				.oauth2Login()
+				.userInfoEndpoint()
+				.and()
+				.successHandler(customAuthenticationSuccessHandler);
 	}
-
 }
