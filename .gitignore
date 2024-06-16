@@ -1,3 +1,29 @@
+<<<<<<< HEAD
 /target/
 /.idea/
 maven-wrapper.jar
+=======
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+>>>>>>> 7a097ed711dbb948b99e441a4ab0981f024f6e27
