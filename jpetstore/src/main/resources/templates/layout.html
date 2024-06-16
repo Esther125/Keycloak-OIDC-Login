@@ -24,6 +24,29 @@
     <meta charset="UTF-8">
     <title>JPetStore Demo</title>
     <link rel="StyleSheet" th:href="@{/css/jpetstore.css}" type="text/css" media="screen" />
+    <script>
+        window.onload = function() {
+            console.log("Fetching Keycloak status...");
+            fetch('/keycloak_status')
+                .then(response => response.text())
+                .then(status => {
+                    console.log("Keycloak status:", status);
+                    if (status === 'DOWN') {
+                        var signInLink = document.querySelector("a[href='/login']");
+                        console.log("Sign In link element found:", signInLink !== null);
+                        if (signInLink) {
+                            console.log("Hiding Sign In button");
+                            signInLink.style.display = 'none';
+                        } else {
+                            console.error("Sign In link not found");
+                        }
+                    } else {
+                        console.log("Keycloak status is not DOWN, Sign In button will not be hidden");
+                    }
+                })
+                .catch(error => console.error('Error fetching Keycloak status:', error));
+        };
+    </script>
 </head>
 
 <body th:with="isErrorResponse=${#request.getAttribute('javax.servlet.error.status_code') ge 400}">
