@@ -86,7 +86,7 @@ openssl x509 -in server.crt -out server.pem -outform PEM
 #then you have to change the cert_path in hertbeat.py to your server.pem path.
 ```
 
-You have to change sender_email, sender_password, receiver_email of send_alert heartbeat.py to your information.
+You have to change sender_email, sender_password, receiver_email of send_alert in heartbeat.py to your information.
 
 **NOTICE:**sender_password must be sender's email's app passwords, not the usual one.
 
