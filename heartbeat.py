@@ -10,9 +10,6 @@ from email.mime.multipart import MIMEMultipart
 
 logging.basicConfig(filename='heartbeat.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# 如果keycloak不可行 但jpetstore可行的話就隱藏jpetstore上的登入按鈕
-# 可不可以檢查user的狀態
-
 def check_service(url, cert_path, error_counts, service_name, error_details):
     try:
         response = requests.get(url, timeout=5, verify=cert_path)
@@ -52,11 +49,11 @@ def check_service(url, cert_path, error_counts, service_name, error_details):
 def send_alert(subject, body):
     # 使用者的帳號
     # 使用的時候改成自己的mail就可以從自己的信箱寄給管理者
-    sender_email = "wendy020817@gmail.com"
+    sender_email = "sender@gmail.com"
     # 這裡要用sender's應用的專用密碼!!
     sender_password = "jaqe bsdt ouop qpju" 
     # receiver是管理者
-    receiver_email = "110703049@g.nccu.edu.tw" 
+    receiver_email = "receiver@gmail.com" 
 
     message = MIMEMultipart()
     message["From"] = sender_email
@@ -130,7 +127,6 @@ def main():
     while True:
         keycloak_status = check_service(keycloak_url, cert_path, error_counts, "keycloak", error_details)
         jpetstore_status = check_service(jpetstore_url, cert_path, error_counts, "jpetstore", error_details)
-        # db_status = check_database(db_host, db_name, db_user, db_password, error_counts, "database")
         
         # 紀錄keycloak的狀態 用來當keycloak不能用時，隱藏登入頁面
         with open('keycloak_status.txt', 'w') as f:
