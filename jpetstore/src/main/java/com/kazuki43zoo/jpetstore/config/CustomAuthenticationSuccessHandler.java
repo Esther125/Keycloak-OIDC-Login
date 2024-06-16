@@ -39,6 +39,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             // Build new Authentication and set into SecurityContext
             Authentication newAuth = new CustomAuthenticationToken(accountUserDetails, authentication.getCredentials(), authentication.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(newAuth);
+            response.sendRedirect("/catalog");
+
         }
 
         super.onAuthenticationSuccess(request, response, authentication);
