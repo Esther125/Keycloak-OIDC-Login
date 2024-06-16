@@ -23,9 +23,11 @@ import com.kazuki43zoo.jpetstore.service.CatalogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author Kazuki Shimizu
@@ -34,13 +36,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventListeners {
 
+	private static final Logger logger = Logger.getLogger(EventListeners.class.getName());
+
 	private final CatalogService catalogService;
 	private final Favourite favourite;
 
 	@EventListener
 	public void handleAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
-		Account account = ((AccountUserDetails) event.getAuthentication().getPrincipal()).getAccount();
-		loadFavouriteProductList(account);
+		AccountUserDetails accountUserDetails = new AccountUserDetails((OidcUser) event.getAuthentication().getPrincipal());
+		loadFavouriteProductList(accountUserDetails.getAccount());
+
 	}
 
 	@EventListener

@@ -45,14 +45,14 @@ java -jar target/mybatis-spring-boot-jpetstore-2.0.0-SNAPSHOT.jar
 
 Once the JPetStore server is successfully started, it will be accessible via: http://localhost:8080/
 
-### Expected Result for Current Stage
+### Expected Result
 
-After entering the JPetStore homepage, click on "Login with OIDC" in the top menu. Log in using the default credentials:
+After entering the JPetStore homepage, click on "Login in" in the top menu. Log in Keycloak server using the default credentials:
 
 - Username: `user1`
 - Password: `user1password`
 
-You should be able to log in successfully and be redirected to a page that displays the complete user information from the Keycloak server.
+You should be able to log in successfully and can use JPetStore normally.
 
 ### Possible Solution for : PKIX path building failed error
 Export the SSL Certificate from Keycloak Container.

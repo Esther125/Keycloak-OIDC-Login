@@ -15,25 +15,85 @@
  */
 package com.kazuki43zoo.jpetstore.service;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import com.kazuki43zoo.jpetstore.domain.Account;
-import org.springframework.security.core.authority.AuthorityUtils;
+import lombok.Getter;
 import org.springframework.security.core.userdetails.User;
 
 /**
  * @author Kazuki Shimizu
  */
-@Getter
-@EqualsAndHashCode(callSuper = false)
-public class AccountUserDetails extends User {
+// ORIGINAL CODE
 
-	private static final long serialVersionUID = -3065955491112229927L;
+//@Getter
+//@EqualsAndHashCode(callSuper = false)
+//public class AccountUserDetails extends User {
+//
+//	private static final long serialVersionUID = -3065955491112229927L;
+//	private final Account account;
+//
+//	public AccountUserDetails(Account account) {
+//		super(account.getUsername(), account.getPassword(), AuthorityUtils.createAuthorityList("ROLE_USER"));
+//		this.account = account;
+//	}
+//
+//}
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.logging.Logger;
+
+public class AccountUserDetails extends User implements OidcUser {
+	private static final Logger logger = Logger.getLogger(AccountUserDetails.class.getName());
+
+	private final OidcUser oidcUser;
+
+	@Getter
 	private final Account account;
 
-	AccountUserDetails(Account account) {
-		super(account.getUsername(), account.getPassword(), AuthorityUtils.createAuthorityList("ROLE_USER"));
-		this.account = account;
+	public AccountUserDetails(OidcUser oidcUser) {
+		super(oidcUser.getName(), "", oidcUser.getAuthorities()); // already authenticated so no need of password
+		this.oidcUser = oidcUser;
+		this.account = new Account();
+
+		// set Account attributes
+		this.account.setUsername((String) oidcUser.getAttributes().get("preferred_username"));
+		this.account.setFirstName((String) oidcUser.getAttributes().get("given_name"));
+		this.account.setLastName((String) oidcUser.getAttributes().get("family_name"));
+		this.account.setEmail((String) oidcUser.getAttributes().get("email"));
 	}
 
+	@Override
+	public Map<String, Object> getAttributes() {
+		return oidcUser.getAttributes();
+	}
+
+	@Override
+	public Collection<GrantedAuthority> getAuthorities() {
+		return (Collection<GrantedAuthority>) oidcUser.getAuthorities();
+	}
+
+	@Override
+	public String getName() {
+		return oidcUser.getName();
+	}
+
+	@Override
+	public Map<String, Object> getClaims() {
+		return oidcUser.getClaims();
+	}
+
+	@Override
+	public OidcUserInfo getUserInfo() {
+		return oidcUser.getUserInfo();
+	}
+
+	@Override
+	public OidcIdToken getIdToken() {
+		return oidcUser.getIdToken();
+	}
 }
