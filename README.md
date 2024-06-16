@@ -77,22 +77,22 @@ Import the Certificate into the Java Keystore on Your Host:
 ### Reference
 - OIDC Login flow: https://docs.google.com/presentation/d/1CiAiuay5rd1KDDnYwOyu6ud9xk5ZetSQDOMp9DYUKjs/edit?pli=1#slide=id.g8bb7b0e120_0_0
 
-# JpetstoreHealthIndicator
+## JpetstoreHealthIndicator
 
 The `JpetstoreHealthIndicator` is a custom health indicator for a Spring Boot application. It checks the health of an external service (running on `http://localhost:8080`) and provides the status through the Actuator health endpoint.
 
-## Features
+### Features
 
 - Checks the status of an external service.
 - Provides detailed health status information.
 - Uses `HttpClient` to send HTTP requests and handle responses.
 - Configures connection timeout for the HTTP client.
 
-## Run the Application
+### Run the Application
 
 Start your Spring Boot application. The custom health indicator will automatically be picked up by the Spring Boot Actuator.
 
-## Access the Health Endpoint
+### Access the Health Endpoint
 
 After successfully running the Jpetstore application, you can check the health status by navigating to [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health) in your web browser.
 
