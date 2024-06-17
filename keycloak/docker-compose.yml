@@ -11,6 +11,16 @@ services:
       - POSTGRES_PASSWORD=keycloak_db_user_password
     networks:
       - keycloak_network
+  pgadmin:
+    container_name: pgadmin
+    image: "docker.io/dpage/pgadmin4:latest"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    networks:
+      - keycloak_network
     
   keycloak:
     build: .
