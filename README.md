@@ -1,5 +1,6 @@
 # Distributed System Final Project
-## Keycloak OIDC Login Implementation
+## Keycloak & JPetStore OIDC Login Implementation
+This repository contains the modified JPetStore application, enhanced to support OIDC login using Keycloak as the OAuth Provider. The goal is to seamlessly integrate modern authentication mechanisms into the existing application.
 
 ### Prerequisites
 Before you start, ensure you have the following installed on your system:
@@ -95,5 +96,7 @@ Then you can run heartbeat.py by
 python heartbeat.py
 ```
 
-### Reference
-- OIDC Login flow: https://docs.google.com/presentation/d/1CiAiuay5rd1KDDnYwOyu6ud9xk5ZetSQDOMp9DYUKjs/edit?pli=1#slide=id.g8bb7b0e120_0_0
+### Demo and Presentation
+- OIDC Login: https://youtu.be/Tqi9Q-onxVo
+- Heartbeat: https://youtu.be/Y9gj3t7iIQE
+- Slides: https://drive.google.com/file/d/1KOzecuXiYpNenW0NyVHxaCGiMggL3IRx/view?usp=sharing
