@@ -1,7 +1,12 @@
 # Distributed System Final Project
+
 ## Keycloak & JPetStore OIDC Login Implementation
 This repository contains the modified JPetStore application, enhanced to support OIDC login using Keycloak as the OAuth Provider. The goal is to seamlessly integrate modern authentication mechanisms into the existing application.
 
+## System Architecture Diagram
+![System Architecture Diagram](./images/system-architecture-diagram.png) 
+
+## Getting Started
 ### Prerequisites
 Before you start, ensure you have the following installed on your system:
 - Docker
@@ -56,7 +61,7 @@ After entering the JPetStore homepage, click on "Login in" in the top menu. Log 
 
 You should be able to log in successfully and can use JPetStore normally.
 
-### Possible Solution for : PKIX path building failed error
+## Possible Solution for : PKIX path building failed error
 Export the SSL Certificate from Keycloak Container.
     
   ```bash
@@ -77,7 +82,7 @@ Import the Certificate into the Java Keystore on Your Host:
   ```
 **NOTICE:** The path to keytool.exe provided above is based on a typical installation of JDK 17 on Windows. If you have a different version of Java installed, or if Java is installed in a different location, you will need to adjust the path accordingly.
 
-### Heartbeat
+## Heartbeat
 Because the server.crt applied in the previous step is needed when checking https, you need to install OpenSSL first.
 
 ```bash
@@ -96,7 +101,7 @@ Then you can run heartbeat.py by
 python heartbeat.py
 ```
 
-### Demo and Presentation
+## Demo and Presentation
 - OIDC Login: https://youtu.be/Tqi9Q-onxVo
 - Heartbeat: https://youtu.be/Y9gj3t7iIQE
 - Slides: https://drive.google.com/file/d/1KOzecuXiYpNenW0NyVHxaCGiMggL3IRx/view?usp=sharing
